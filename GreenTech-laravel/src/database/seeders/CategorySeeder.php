@@ -9,12 +9,10 @@ use SebastianBergmann\FileIterator\Factory;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         // Category::factory()->create();
+
         $categories = ['Plantes','Graines','Outils'];
 
         foreach ($categories as $name) {
