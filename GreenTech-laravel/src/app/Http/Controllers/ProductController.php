@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\User;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -38,9 +40,12 @@ class ProductController extends Controller
                 });
         }
         $products = $query->paginate(8)->withQueryString();
-
         $categories = Category::all();
-        return view('productViews.listProducts', compact('products', 'search', 'categories', 'cate'));
+
+        $user = User::find(Session::get('user_id'));
+        $favoriteIds = [];
+        $favoriteIds = $user->favorites()->get()->pluck('id')->toArray();
+        return view('productViews.listProducts', compact('products', 'search', 'categories', 'cate', 'favoriteIds'));
 
         //     $users = User::with('services', function($query) use ($category) {
         //      $query->where('category', 'LIKE', '%' . $category . '%');
@@ -50,8 +55,11 @@ class ProductController extends Controller
     public function show(int $id)
     {
         // $product = Product::find($id);
+        $user = User::find(Session::get('user_id'));
+        $favoriteIds = [];
+        $favoriteIds = $user->favorites()->get()->pluck('id')->toArray();
         $product = Product::with('category')->findOrFail($id);
-        return view('productViews.showProduct', compact('product'));
+        return view('productViews.showProduct', compact('product', 'favoriteIds'));
     }
     public function create()
     {

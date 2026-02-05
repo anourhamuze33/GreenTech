@@ -168,18 +168,16 @@
 <body class="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 min-h-screen">
 
     @include('partials.sidebar')
-    <!-- MAIN CONTENT WRAPPER -->
+    
     <div class="ml-64">
 
         @include('partials.header')
 
-        <!-- MAIN CONTENT -->
         <main class="container mx-auto px-6 py-12 leaf-pattern">
             @yield('content')
         </main>
 
         @include('partials.footer')
-
     </div>
     </body>
 

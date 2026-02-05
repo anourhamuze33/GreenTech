@@ -92,13 +92,21 @@
                     class="px-10 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold rounded-2xl shadow-lg transition">
                     Ajouter au panier
                 </button>
-
+                <a href="{{route('favorites.toggle', $product->id)}}">
+                @if(in_array($product->id, $favoriteIds))
                 <button
-                    class="px-8 py-4 bg-white/80 hover:bg-white text-gray-700 font-semibold rounded-2xl border border-gray-200 transition">
+                    class="px-8 py-4 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-2xl border border-red-500 transition">
                     Favoris
                 </button>
-            </div>
 
+                @else
+                <button
+                    class="px-8 py-4 bg-red/80 hover:bg-red text-white-700 font-semibold rounded-2xl border border-white-200 transition">
+                    Favoris
+                </button>
+                @endif
+                </a>
+            </div>
             {{-- Extra info --}}
             <div class="mt-10 flex gap-8 text-sm text-gray-500">
                 <div>
