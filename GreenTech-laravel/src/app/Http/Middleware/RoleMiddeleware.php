@@ -18,7 +18,7 @@ class RoleMiddeleware
     public function handle(Request $request, Closure $next, $roles): Response
     {
 
-        $userId = Session::get('user_id');
+        $userId = Session::get('user_2fa');
         $user = User::find($userId);
         if ($user && !in_array($user->role, explode('@', $roles))) {
             return redirect()->route('products.index');

@@ -11,13 +11,13 @@ class FavoriteController extends Controller
 {
     public function toggle(int $id_product)
     {
-        $user = User::find(Session::get('user_id'));
+        $user = User::find(Session::get('user_2fa'));
         $user->favorites()->toggle($id_product);
         return back();
     }
     public function index()
     {
-        $user = User::find(Session::get('user_id'));
+        $user = User::find(Session::get('user_2fa'));
         // $products = $user->favorites;
         // $favorites = $user->favorites()->get()
         $products = $user->favorites()->paginate(8)->withQueryString();
@@ -33,7 +33,7 @@ class FavoriteController extends Controller
     }
     public function filter(int $filter)
     {
-        $user = User::find(Session::get('user_id'));
+        $user = User::find(Session::get('user_2fa'));
         $produit = $user->favorites()->paginate(8)->withQueryString();
         $nbrEpuise = $produit->where('stock', '=', 0)->count();
         $nbrDisponible = $produit->where('stock', '>', 0)->count();

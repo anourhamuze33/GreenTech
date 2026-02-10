@@ -4,11 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpFoundation\Response;
 
-
-class AuthMiddleware
+class Check2FAMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,9 +16,10 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Session::has('user_2fa')) {
-            return redirect()->route('auth.login');
-        }
+        if(!Session::has('user_2fa'))
+            {
+                return redirect()->route('2fa.index');
+            }
         return $next($request);
     }
 }

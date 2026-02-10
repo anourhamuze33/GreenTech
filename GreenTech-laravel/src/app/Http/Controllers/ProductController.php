@@ -42,7 +42,7 @@ class ProductController extends Controller
         $products = $query->paginate(8)->withQueryString();
         $categories = Category::all();
 
-        $user = User::find(Session::get('user_id'));
+        $user = User::find(Session::get('user_2fa'));
         $favoriteIds = [];
         $favoriteIds = $user->favorites()->get()->pluck('id')->toArray();
         return view('productViews.listProducts', compact('products', 'search', 'categories', 'cate', 'favoriteIds'));
@@ -55,7 +55,7 @@ class ProductController extends Controller
     public function show(int $id)
     {
         // $product = Product::find($id);
-        $user = User::find(Session::get('user_id'));
+        $user = User::find(Session::get('user_2fa'));
         $favoriteIds = [];
         $favoriteIds = $user->favorites()->get()->pluck('id')->toArray();
         $product = Product::with('category')->findOrFail($id);
