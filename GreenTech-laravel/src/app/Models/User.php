@@ -41,4 +41,20 @@ class User extends Model
             dd($e);
         }
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(
+            Role::class,
+            'user_role',
+            'user_id',
+            'role_id',
+        );
+    }
+
+
+    public function hasPermission($routeName)
+    {
+        return $this->roles()->with('permissions')->get()->pluck('permissions')->flatten()->pluck('name')->contains($routeName);
+    }
 }

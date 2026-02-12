@@ -86,20 +86,41 @@
         <form action="{{route('role.update', $role->id)}}" method="POST" class="p-6 space-y-3">
             @csrf
             @method('PUT')
-            
+
             <!-- Name Field -->
             <div class="flex items-center">
-                <label  class="w-32 text-[#0a4d2e] font-bold text-sm">Nom</label>
+                <label class="w-32 text-[#0a4d2e] font-bold text-sm">Nom</label>
                 <input id="name" type="text" name="name" required value="{{$role->name}}"
                     class="flex-1 bg-white border-2 border-[#2b8a53] rounded-xl px-3 py-2 inner-soft-shadow focus:outline-none focus:ring-2 focus:ring-[#76d997] transition-all">
             </div>
-            
+            <div class="bg-white border-2 border-[#2b8a53] rounded-xl p-5 inner-soft-shadow">
+                <h3 class="text-[#0a4d2e] font-bold text-base mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    Permissions
+                </h3>
+
+                <div class="grid grid-cols-2 gap-3">
+                    @foreach($permissions as $permission)
+                    <label class="checkbox-container text-[#0a4d2e] text-sm font-medium">
+                        {{$permission->name}}
+                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}"
+                            @if(in_array($permission->id, $permIds)) checked @endif>
+                        <span class="checkmark"></span>
+                    </label>
+                    @endforeach
+                </div>
+            </div>
+
             <!-- Submit Button -->
             <div class="pt-4">
                 <button type="submit"
                     class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all transform hover:scale-[1.02] hover:shadow-xl flex items-center justify-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     <span>Editer le Role</span>
                 </button>
@@ -113,7 +134,7 @@
             <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="currentColor" />
         </svg>
     </div>
-<script src="{{ asset('js/ai.js') }}"></script>
+    <script src="{{ asset('js/ai.js') }}"></script>
 </body>
 
 </html>

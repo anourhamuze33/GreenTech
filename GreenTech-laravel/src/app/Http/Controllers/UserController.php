@@ -2,39 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function index()
     {
+        $routeName = request()->route()->getName();
+        if(!Gate::allows($routeName)){
+            return redirect()->route('products.index');
+        }
         $users = User::orderBy('created_at', 'desc')
         ->paginate(8);
         return view('users.index', compact('users'));
     }
     public function showRegister()
     {
-        return view('Auth.register');
+        $roles = Role::all();
+        return view('Auth.register', compact('roles'));
     }
 
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'role' => 'required',
+            'role_select' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ]);
 
-        User::create([
+        $user = User::create([
             'name'    => $request->name,
             'email'   => $request->email,
-            'role'    => $request->role,
             'password' => Hash::make($request->password)
         ]);
-
+        $user->roles()->attach($request->role_select);
         return redirect()->route('users.index')->with('succes', 'account created succesfully');
     }
     public function edit(int $id)

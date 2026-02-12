@@ -9,6 +9,7 @@ use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use OpenAI\Laravel\Facades\OpenAI;

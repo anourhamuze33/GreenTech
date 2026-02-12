@@ -80,7 +80,7 @@
 
         <form action="{{route('user.register')}}" method="POST" class="p-6 space-y-3">
             @csrf
-            
+
             <div class="flex items-center">
                 <label class="w-32 text-[#0a4d2e] font-bold text-sm">Nom Complet</label>
                 <input type="text" name="name" required
@@ -141,11 +141,12 @@
 
             <!-- Role Selection -->
             <div class="space-y-2">
-                <input type="hidden" name="role" id="roleInput" value="">
-                
                 <!-- Client Role Card -->
+                @foreach($roles as $role)
+                @continue($role->id == 10)
                 <label class="role-card block bg-white border-2 border-[#2b8a53] rounded-xl p-4 relative">
-                    <input type="radio" name="role_select" value="client" onchange="selectRole('client')">
+                    <input type="radio" name="role_select" value="{{$role->id}}"
+                        onchange="selectRole('{{$role->name}}')">
                     <div class="flex items-center gap-4">
                         <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                             <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,38 +155,18 @@
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-[#0a4d2e] font-bold text-base">Client</h3>
+                            <h3 class="text-[#0a4d2e] font-bold text-base">{{$role->name}}</h3>
                             <p class="text-gray-600 text-xs">Acheter des plantes et produits</p>
                         </div>
                         <div class="checkmark w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                    d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
                     </div>
                 </label>
-
-                <!-- Jardinier Role Card -->
-                <label class="role-card block bg-white border-2 border-[#2b8a53] rounded-xl p-4 relative">
-                    <input type="radio" name="role_select" value="jardinier" onchange="selectRole('jardinier')">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
-                            <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                            </svg>
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="text-[#0a4d2e] font-bold text-base">Jardinier</h3>
-                            <p class="text-gray-600 text-xs">Vendre vos plantes et services</p>
-                        </div>
-                        <div class="checkmark w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                    </div>
-                </label>
+                @endforeach
             </div>
 
             <!-- Submit Button -->
@@ -204,7 +185,8 @@
             <div class="text-center pt-2">
                 <p class="text-sm text-gray-600">
                     Vous avez déjà un compte?
-                    <a href="{{route('auth.login')}}" class="text-green-600 font-semibold hover:text-green-700 hover:underline">
+                    <a href="{{route('auth.login')}}"
+                        class="text-green-600 font-semibold hover:text-green-700 hover:underline">
                         Se Connecter
                     </a>
                 </p>

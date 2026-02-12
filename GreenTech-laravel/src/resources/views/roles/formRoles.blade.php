@@ -59,13 +59,72 @@
             height: 300px;
             opacity: 0;
         }
+
+        /* Custom Green Checkbox Styles */
+        .checkbox-container {
+            display: block;
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 20px;
+            width: 20px;
+            background-color: white;
+            border: 2px solid #2b8a53;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-container:hover input ~ .checkmark {
+            background-color: #f0fdf4;
+        }
+
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: #10b981;
+            border-color: #059669;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
     </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center p-4">
 
     <div
-        class="max-w-md w-full bg-[#f0f9f6] rounded-[2.5rem] shadow-[0_10px_25px_rgba(0,0,0,0.15),0_4px_6px_rgba(0,0,0,0.1)] overflow-hidden">
+        class="max-w-2xl w-full bg-[#f0f9f6] rounded-[2.5rem] shadow-[0_10px_25px_rgba(0,0,0,0.15),0_4px_6px_rgba(0,0,0,0.1)] overflow-hidden">
         <!-- Header with gradient -->
         <div class="bg-gradient-to-r from-[#0c5e3d] to-[#3ab37b] p-6 border-b-[2px] border-[#9ee6b8]">
             <div class="flex flex-row items-center gap-4">
@@ -78,23 +137,42 @@
                 <!-- Text -->
                 <div class="flex flex-col">
                     <h1 class="text-2xl font-bold text-white tracking-wide">Ajouter un Role</h1>
-                    <p class="text-emerald-100/90 text-xs font-medium">Remplissez le nom du role</p>
+                    <p class="text-emerald-100/90 text-xs font-medium">Remplissez le nom du role et sélectionnez les permissions</p>
                 </div>
             </div>
         </div>
 
-        <form action="{{route('role.store')}}" method="POST" class="p-6 space-y-3">
+        <form action="{{route('role.store')}}" method="POST" class="p-6 space-y-5">
             @csrf
             
             <!-- Name Field -->
             <div class="flex items-center">
-                <label  class="w-32 text-[#0a4d2e] font-bold text-sm">Nom</label>
+                <label class="w-32 text-[#0a4d2e] font-bold text-sm">Nom</label>
                 <input id="name" type="text" name="name" required
                     class="flex-1 bg-white border-2 border-[#2b8a53] rounded-xl px-3 py-2 inner-soft-shadow focus:outline-none focus:ring-2 focus:ring-[#76d997] transition-all">
             </div>
             
+            <!-- Permissions Section -->
+            <div class="bg-white border-2 border-[#2b8a53] rounded-xl p-5 inner-soft-shadow">
+                <h3 class="text-[#0a4d2e] font-bold text-base mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    Permissions
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    @foreach($permissions as $permission)
+                    <label class="checkbox-container text-[#0a4d2e] text-sm font-medium">
+                        {{$permission->name}}
+                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}">
+                        <span class="checkmark"></span>
+                    </label>
+                    @endforeach
+                </div>
+            </div>
             <!-- Submit Button -->
-            <div class="pt-4">
+            <div class="pt-2">
                 <button type="submit"
                     class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all transform hover:scale-[1.02] hover:shadow-xl flex items-center justify-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -62,7 +62,7 @@ class LoginController extends Controller
     }
     public function logout()
     {
-        Session::forget('user');
+        Session::forget('user_2fa');
         return redirect()->route('auth.login');
     }
 }
